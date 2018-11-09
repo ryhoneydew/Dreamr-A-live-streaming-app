@@ -7,9 +7,11 @@ const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 4000
 const app = express()
 const socketio = require('socket.io')
+const OpenTok = require('opentok')
+
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
@@ -105,10 +107,15 @@ const startListening = () => {
   require('./socket')(io)
 }
 
+if (!process.env.API_KEY || !process.env.API_SECRET) {
+  console.log('You must specify API_KEY and API_SECRET environment variables')
+  process.exit(1)
+}
+
 const syncDb = () => db.sync()
 
 async function bootApp() {
-  await sessionStore.sync()
+  //await sessionStore.sync()
   await syncDb()
   await createApp()
   await startListening()
