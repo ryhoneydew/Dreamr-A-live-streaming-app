@@ -6,6 +6,9 @@ const Room = db.define('room', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  isStreaming: {
+    type: Sequelize.BOOLEAN
+  },
   sessionId: {
     type: Sequelize.TEXT
   },

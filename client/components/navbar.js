@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div className="ui large top fixed hidden menu">
+  <div>
     <div className="ui container">
       <h1 className="ui center aligned huge header">Dreamr</h1>
     </div>

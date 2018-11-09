@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Room} = require('../db/models')
+const {Room, User} = require('../db/models')
 const OpenTok = require('opentok')
 module.exports = router
 
@@ -23,18 +23,30 @@ router.get('/:roomId', async (req, res, next) => {
 
 router.post('/new', (req, res, next) => {
   let opentok = new OpenTok(process.env.API_KEY, process.env.API_SECRET)
+  console.log('--------', req.body)
   opentok.createSession({mediaMode: 'routed'}, async (err, session) => {
     if (err) {
       console.log(err)
       res.status(500).send({error: 'createSession error: ', err})
       return
     }
+
+    const publisher = await User.findById(req.user.id)
+    console.log('Heyyyy Publisher', session.id)
     let sessionId = session.sessionId
+    req.body.roomName = 'abc'
     req.body.sessionId = sessionId
     try {
       const newRoom = await Room.create(req.body)
-      let token = opentok.generateToken(newRoom.sessionId)
-      res.send({token, newRoom})
+      const tokenOptions = {}
+      tokenOptions.role = 'publisher'
+      tokenOptions.data = `username=${publisher.name}`
+      let token = opentok.generateToken(sessionId, tokenOptions)
+      console.log('Heyyyy token!', token)
+      console.log('Heyyyy user!', req.user.id)
+      await publisher.update({token: token, publisherId: req.user.id})
+      console.log('Heyyyyyyy publisher!!!!!!', publisher)
+      res.send({newRoom, publisher})
     } catch (err) {
       next(err)
     }
