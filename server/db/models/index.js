@@ -1,5 +1,6 @@
 const User = require('./user')
 const Room = require('./room')
+const Message = require('./message')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -17,7 +18,14 @@ const Room = require('./room')
 Room.belongsTo(User, {as: 'publisher'})
 
 User.hasMany(User, {as: 'subscriber', foreignKey: 'subscriberId'})
+
+Message.belongsTo(User)
+
+User.hasMany(Message)
+
+Room.hasMany(Message)
 module.exports = {
   User,
-  Room
+  Room,
+  Message
 }

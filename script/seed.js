@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Room} = require('../server/db/models')
+const {User, Room, Message} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -81,11 +81,28 @@ async function seed() {
         'http://media.boingboing.net/wp-content/uploads/2017/03/surprised-cat-04.jpg'
     }
   ]
+  const id = () => Math.round(Math.random() * (users.length - 1)) + 1
 
+  const messagesData = [
+    {userId: id(), content: 'I like Redux!', roomId: 1},
+    {userId: id(), content: 'I like React!', roomId: 1},
+    {userId: id(), content: 'I like React-Redux!', roomId: 1},
+    {userId: id(), content: 'I like writing web apps!', roomId: 2},
+    {userId: id(), content: 'You should learn JavaScript!', roomId: 2},
+    {userId: id(), content: 'JavaScript is pretty great!', roomId: 2},
+    {userId: id(), content: 'Dogs are great!', roomId: 1},
+    {userId: id(), content: 'Cats are also great!', roomId: 2},
+    {userId: id(), content: 'Why must we fight so?', roomId: 2},
+    {userId: id(), content: 'I want to get tacos!', roomId: 1},
+    {userId: id(), content: 'I want to get salad!', roomId: 1},
+    {userId: id(), content: 'I want a taco salad!', roomId: 2}
+  ]
   await Room.bulkCreate(roomData)
+  await Message.bulkCreate(messagesData)
 
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${roomData.length} users`)
+  console.log(`seeded ${roomData.length} rooms`)
+  console.log(`seeded ${messagesData.length} messages`)
   console.log(`seeded successfully`)
 }
 

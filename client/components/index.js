@@ -7,4 +7,7 @@ export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as Room} from './streaming-room'
 export {default as NewRoom} from './new-room'
+export {default as NewMessage} from './messages/new-message'
+export {default as MessagesList} from './messages/messages-list'
+
 export {Login, Signup} from './auth-form'

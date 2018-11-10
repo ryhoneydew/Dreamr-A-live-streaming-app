@@ -10,7 +10,6 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 4000
 const app = express()
 const socketio = require('socket.io')
-const OpenTok = require('opentok')
 
 module.exports = app
 
