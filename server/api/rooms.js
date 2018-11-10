@@ -55,7 +55,13 @@ router.post('/new', (req, res, next) => {
       tokenOptions.data = `username=${publisher.name}`
       let token = opentok.generateToken(sessionId, tokenOptions)
       await publisher.update({token: token})
-      res.send({newRoom, publisher})
+      const roomWithPublisher = await Room.findOne({
+        where: {
+          id: newRoom.id
+        },
+        include: [{all: true}]
+      })
+      res.send({roomWithPublisher, publisher})
     } catch (err) {
       next(err)
     }

@@ -80,6 +80,7 @@ class StreamingRoom extends React.Component {
 
   render() {
     const room = this.props.singleRoom.room
+
     const {error, connection, publishVideo} = this.state
     return (
       !!room.id && (

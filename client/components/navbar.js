@@ -6,7 +6,7 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <div className="ui container">
+    <div className="ui text menu">
       <h1 className="ui center aligned huge header">Dreamr</h1>
     </div>
     <div>
