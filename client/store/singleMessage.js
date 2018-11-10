@@ -1,5 +1,6 @@
 import axios from 'axios'
-//import socket from 'socket.io'
+import socket from '../socket'
+import {receiveNewMessage} from './messages'
 
 const WRITE_A_MESSAGE = 'WRITE_A_MESSAGE'
 const GET_A_MESSAGE = 'GET_A_MESSAGE'
@@ -19,10 +20,9 @@ const getAMessage = content => ({
 export const postAMessage = (content, roomId) => async dispatch => {
   try {
     const {data} = await axios.post('/api/messages/new', content, roomId)
-    const newMsg = data.content
-    dispatch(writeAMessage(newMsg))
-    //dispatch(receiveNewMessage(newMsg))
-    //socket.emit('new_message', newMsg)
+    const message = data
+    dispatch(writeAMessage(message))
+    socket.emit('new_message', message)
   } catch (err) {
     console.log(err)
   }

@@ -25,7 +25,15 @@ router.post('/new', async (req, res, next) => {
   try {
     req.body.userId = req.user.id
     const newMsg = await Message.create(req.body)
-    res.json(newMsg)
+    const msgWithUser = await Message.findOne({
+      where: {id: newMsg.id},
+      include: [
+        {
+          model: User
+        }
+      ]
+    })
+    res.json(msgWithUser)
   } catch (err) {
     next(err)
   }

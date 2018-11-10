@@ -13,6 +13,7 @@ class MessagesList extends Component {
   async componentDidMount() {
     await this.props.fetchMessages(theRoomId)
   }
+
   render() {
     const messages = this.props.messages
     console.log(messages)
@@ -22,12 +23,15 @@ class MessagesList extends Component {
         {messages.length ? (
           <div>
             <ul>
-              {messages.map(message => (
-                <li key={message.id}>
-                  {message.content}
-                  <span>{getUserName(message.user.email)}</span>
-                </li>
-              ))}
+              {messages.map(message => {
+                console.log(message)
+                return (
+                  <li key={message.id}>
+                    {message.content}
+                    <span>{getUserName(message.user.email)}</span>
+                  </li>
+                )
+              })}
             </ul>
             <NewMessage roomId={theRoomId} />
           </div>

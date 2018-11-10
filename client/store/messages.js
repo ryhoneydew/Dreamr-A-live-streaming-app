@@ -10,16 +10,19 @@ const getMessagesForTheRoom = messages => ({
   messages
 })
 
-export const receiveNewMessage = message => ({
-  type: RECEIVE_NEW_MESSAGE,
-  message
-})
+export const receiveNewMessage = message => {
+  console.log('action calleddd', message)
+  return {
+    type: RECEIVE_NEW_MESSAGE,
+    message
+  }
+}
 
 export const fetchMessagesFromServer = roomId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/messages/rooms/${roomId}`)
+    console.log(data)
     const messages = data
-    console.log('!!!!!', messages)
     dispatch(getMessagesForTheRoom(messages))
   } catch (err) {
     console.log(err)
@@ -31,6 +34,7 @@ const reducer = (state = initialState, action) => {
     case GET_MESSSAGES:
       return action.messages
     case RECEIVE_NEW_MESSAGE:
+      console.log('store called', action.message)
       return [...state, action.message]
     default:
       return state
