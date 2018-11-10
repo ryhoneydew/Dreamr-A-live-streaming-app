@@ -6,4 +6,5 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as Room} from './streaming-room'
+export {default as NewRoom} from './new-room'
 export {Login, Signup} from './auth-form'

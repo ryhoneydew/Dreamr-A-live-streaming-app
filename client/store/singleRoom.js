@@ -3,11 +3,12 @@ import axios from 'axios'
 const GET_ROOM_INFO = 'GET_ROOM_INFO'
 const CREAT_NEW_ROOM = 'CREAT_NEW_ROOM'
 
-const initialState = {room: {}, publisher: {}}
+const initialState = {room: {}, publisher: {}, subscriber: []}
 
-export const getRoomInfo = room => ({
+export const getRoomInfo = payload => ({
   type: GET_ROOM_INFO,
-  room
+  room: payload.room,
+  subscriber: payload.room
 })
 export const createNewRoom = payload => ({
   type: CREAT_NEW_ROOM,
@@ -18,8 +19,9 @@ export const createNewRoom = payload => ({
 export const fetchRoomInfo = roomId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/rooms/${roomId}`)
-    const room = data
-    dispatch(getRoomInfo(room))
+    const room = data.roomWithPublisher
+    const subscriber = data.subscriber
+    dispatch(getRoomInfo({room, subscriber}))
   } catch (err) {
     console.log(err)
   }
@@ -38,7 +40,11 @@ export const createARoom = () => async dispatch => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ROOM_INFO:
-      return {...state, room: action.room}
+      return {
+        ...state,
+        room: action.room,
+        subscriber: [...this.state.subscriber, action.subscriber]
+      }
     case CREAT_NEW_ROOM:
       return {...state, room: action.room, publisher: action.publisher}
     default:

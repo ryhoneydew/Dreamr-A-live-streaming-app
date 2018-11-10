@@ -17,10 +17,19 @@ router.get('/:roomId', async (req, res, next) => {
   try {
     const room = await Room.findById(req.params.roomId)
     const subscriber = await User.findById(req.user.id)
+    console.log('Heyyy subscriber', subscriber)
     let sessionId = room.sessionId
     let token = opentok.generateToken(sessionId)
     await subscriber.update({subscriberId: req.user.id, token})
-    res.json({room, subscriber})
+    console.log('Update subscriber', subscriber)
+    const roomWithPublisher = await Room.findOne({
+      where: {
+        id: req.params.roomId
+      },
+      include: [{all: true}]
+    })
+    console.log('Heyyy roomWithP', roomWithPublisher)
+    res.json({roomWithPublisher, subscriber})
   } catch (err) {
     next(err)
   }
@@ -35,19 +44,17 @@ router.post('/new', (req, res, next) => {
     }
 
     const publisher = await User.findById(req.user.id)
-
     let sessionId = session.sessionId
     req.body.roomName = 'abc'
     req.body.sessionId = sessionId
+    req.body.publisherId = req.user.id
     try {
       const newRoom = await Room.create(req.body)
       const tokenOptions = {}
       tokenOptions.role = 'publisher'
       tokenOptions.data = `username=${publisher.name}`
       let token = opentok.generateToken(sessionId, tokenOptions)
-
-      await publisher.update({token: token, publisherId: req.user.id})
-
+      await publisher.update({token: token})
       res.send({newRoom, publisher})
     } catch (err) {
       next(err)

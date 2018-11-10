@@ -14,7 +14,7 @@ const Room = require('./room')
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
-Room.hasOne(User, {foreignKey: 'publisherId'})
+Room.belongsTo(User, {as: 'publisher'})
 
 User.hasMany(User, {as: 'subscriber', foreignKey: 'subscriberId'})
 module.exports = {
