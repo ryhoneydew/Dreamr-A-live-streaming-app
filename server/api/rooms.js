@@ -17,18 +17,16 @@ router.get('/:roomId', async (req, res, next) => {
   try {
     const room = await Room.findById(req.params.roomId)
     const subscriber = await User.findById(req.user.id)
-    console.log('Heyyy subscriber', subscriber)
     let sessionId = room.sessionId
     let token = opentok.generateToken(sessionId)
     await subscriber.update({subscriberId: req.user.id, token})
-    console.log('Update subscriber', subscriber)
     const roomWithPublisher = await Room.findOne({
       where: {
         id: req.params.roomId
       },
       include: [{all: true}]
     })
-    console.log('Heyyy roomWithP', roomWithPublisher)
+
     res.json({roomWithPublisher, subscriber})
   } catch (err) {
     next(err)

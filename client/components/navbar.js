@@ -4,12 +4,12 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import styled from 'styled-components'
 
-const Title = styled.h1`
+const Title = styled.div`
   font-size: 4rem;
   font-family: 'Exo', sans-serif;
   text-align: center;
-  color: white;
-  margin-top: 1.5rem;
+  color: #4f4114;
+  font-weight: bold;
   width: 100%;
   float: left;
   padding: 1rem 0;
@@ -17,15 +17,15 @@ const Title = styled.h1`
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: nowrap;
   background-color: #f4d03f;
   justify-content: center;
+  align-items: center;
+  height: 13vh;
 `
 const NavWrapper = styled.div`
   float: right;
   padding: 1rem;
   width: 80%;
-  align-items: flex-end;
 `
 
 const Navbar = ({handleClick, isLoggedIn}) => (
