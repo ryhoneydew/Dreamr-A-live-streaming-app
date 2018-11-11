@@ -2,41 +2,46 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchMessagesFromServer} from '../../store/messages'
 import NewMessage from './new-message'
+import styled from 'styled-components'
+import SingleMessage from './single-message'
 
-const getUserName = email => {
-  const idx = email.indexOf('@')
-  return email.slice(0, idx)
-}
-
-const theRoomId = 1
+const Header = styled.div`
+  color: #4f4114;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  background-color: rgb(245, 188, 87);
+  height: 8vh;
+  border-top-left-radius: 10px;
+`
 class MessagesList extends Component {
   async componentDidMount() {
+    const theRoomId = this.props.roomId
     await this.props.fetchMessages(theRoomId)
   }
 
   render() {
     const messages = this.props.messages
-    console.log(messages)
+    const roomId = this.props.roomId
     return (
-      <div>
-        <h1>See What did people say:</h1>
+      <div className="chat-box">
+        <Header>
+          <h3>See What did people say:</h3>
+        </Header>
         {messages.length ? (
-          <div>
-            <ul>
-              {messages.map(message => {
-                console.log(message)
-                return (
-                  <li key={message.id}>
-                    {message.content}
-                    <span>{getUserName(message.user.email)}</span>
-                  </li>
-                )
-              })}
-            </ul>
-            <NewMessage roomId={theRoomId} />
-          </div>
+          <React.Fragment>
+            <ol>
+              {messages.map(message => (
+                <SingleMessage key={message.id} message={message} />
+              ))}
+            </ol>
+            <NewMessage roomId={roomId} />
+          </React.Fragment>
         ) : (
-          <h4>Be the first one to leave comments here!</h4>
+          <React.Fragment>
+            <h4>Be the first one to leave comments here!</h4>
+            <NewMessage roomId={roomId} />
+          </React.Fragment>
         )}
       </div>
     )

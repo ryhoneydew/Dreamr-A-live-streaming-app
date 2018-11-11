@@ -10,7 +10,7 @@ const Button = styled.button`
   border: 2px solid black;
   background-color: white;
   font-size: 1em;
-  margin: 1em;
+  margin: 0.4rem;
   padding: 0.25em 1em;
   border-radius: 3px;
   z-index: 1;
@@ -47,7 +47,7 @@ class StreamingRoom extends React.Component {
 
     this.publisherOptions = {
       insertMode: 'append',
-      width: '400px',
+      width: '500px',
       height: '400px'
     }
 
@@ -114,7 +114,9 @@ class StreamingRoom extends React.Component {
       !!room.id && (
         <StreamingWrapper>
           <h3>Steaming Status: {connection}</h3>
-
+          <Button id="videoButton" type="submit" onClick={this.toggleVideo}>
+            {publishVideo ? 'Disable' : 'Enable'} Video
+          </Button>
           {error ? (
             <div className="error">
               <strong>Error:</strong> {error}
@@ -143,10 +145,6 @@ class StreamingRoom extends React.Component {
               />
             </OTStreams>
           </OTSession>
-
-          <Button id="videoButton" type="submit" onClick={this.toggleVideo}>
-            {publishVideo ? 'Disable' : 'Enable'} Video
-          </Button>
         </StreamingWrapper>
       )
     )

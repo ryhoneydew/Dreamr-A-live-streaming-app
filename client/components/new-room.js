@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import StreamingRoom from './streaming-room'
 import styled from 'styled-components'
 import MessagesList from './messages/messages-list'
+import {withRouter} from 'react-router-dom'
 
 const LeftSplitWrapper = styled.div`
   display: flex;
   flex-wrap: no-wrap;
   width: 50%;
   position: fixed;
-  padding-top: 1.5rem, 1rem;
+  padding-top: 1.5rem;
+  padding-left: 4rem;
   left: 0;
 `
 
@@ -30,11 +32,11 @@ class NewRoom extends Component {
           <StreamingRoom />
         </LeftSplitWrapper>
         <RightSplitWrapper>
-          <MessagesList />
+          <MessagesList roomId={this.props.match.params.roomId} />
         </RightSplitWrapper>
       </div>
     )
   }
 }
 
-export default NewRoom
+export default withRouter(NewRoom)

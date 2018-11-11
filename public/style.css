@@ -20,27 +20,17 @@ form div {
   display: inline-block;
 }
 
+ol {
+  list-style-type: none;
+}
 h4 {
   font-size: 1.2rem;
-}
-/* message form */
-
-#new-message-form {
-  position: relative;
-}
-
-#new-message-form .form-control {
-  border-width: 3px 1.5px 3px 3px;
-}
-
-#new-message-form.btn {
-  border-width: 3px;
 }
 
 .item {
   display: inline-block;
   padding: 2rem;
-  color: white;
+  color: #4f4114;
   font-size: 1.5rem;
   position: relative;
 }
@@ -52,4 +42,20 @@ hr {
 .section-img {
   width: 22vh;
   height: 20vh;
+}
+
+.chat-box {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: 40vw;
+  height: 80vh;
+  z-index: 100;
+  background: linear-gradient(
+    rgba(244, 208, 63, 0.5),
+    rgba(249, 249, 222, 0.5)
+  );
+  /* background-image: linear-gradient(#f9f9de, #f4d03f); */
+  border-color: rgb(245, 188, 87);
+  border-top-left-radius: 5%;
 }
