@@ -17,7 +17,7 @@ const Section = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   width: 25vw;
-  height: auto;
+  height: 30vh;
   background-color: #f9f9de;
   padding: 0.01em 16px;
   margin: 1.5rem;
