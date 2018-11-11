@@ -1,6 +1,5 @@
 import axios from 'axios'
 import socket from '../socket'
-import {receiveNewMessage} from './messages'
 
 const WRITE_A_MESSAGE = 'WRITE_A_MESSAGE'
 const GET_A_MESSAGE = 'GET_A_MESSAGE'

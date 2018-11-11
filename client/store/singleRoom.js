@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {updateRooms} from './rooms'
 
 const GET_ROOM_INFO = 'GET_ROOM_INFO'
 const CREAT_NEW_ROOM = 'CREAT_NEW_ROOM'
@@ -30,10 +31,10 @@ export const fetchRoomInfo = roomId => async dispatch => {
 
 export const createARoom = () => async dispatch => {
   try {
-    console.log('Store called!!!')
     const {data} = await axios.post(`api/rooms/new`)
     const room = data.roomWithPublisher
     const publisher = data.publisher
+    dispatch(updateRooms(room))
     dispatch(createNewRoom({room, publisher}))
   } catch (err) {
     console.log(err)
