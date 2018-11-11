@@ -16,10 +16,19 @@ router.get('/', async (req, res, next) => {
 router.get('/:roomId', async (req, res, next) => {
   try {
     const room = await Room.findById(req.params.roomId)
-    const subscriber = await User.findById(req.user.id)
     let sessionId = room.sessionId
-    let token = opentok.generateToken(sessionId)
-    await subscriber.update({subscriberId: req.user.id, token})
+    if (!(room.publisherId === req.user.id)) {
+      const publisher = await User.findById(room.publisherId)
+      const subscriber = await User.findById(req.user.id)
+      const tokenOptions = {}
+      tokenOptions.role = 'subscriber'
+      tokenOptions.data = 'username=bob'
+      let token = opentok.generateToken(sessionId, tokenOptions)
+      await publisher.update({subscriberId: req.user.id})
+      await subscriber.update({token})
+      console.log('!!!!', publisher)
+      console.log('------', subscriber)
+    }
     const roomWithPublisher = await Room.findOne({
       where: {
         id: req.params.roomId
@@ -27,7 +36,7 @@ router.get('/:roomId', async (req, res, next) => {
       include: [{all: true}]
     })
 
-    res.json({roomWithPublisher, subscriber})
+    res.json({roomWithPublisher})
   } catch (err) {
     next(err)
   }

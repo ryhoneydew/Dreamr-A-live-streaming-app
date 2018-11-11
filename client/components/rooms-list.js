@@ -37,9 +37,9 @@ class RoomsList extends Component {
             this.props.rooms.map(room => (
               <Link key={room.id} to={`/room/${room.id}`}>
                 <Section>
-                  <h6>
+                  <div>
                     Room: {room.id} By:{room.publisher.email}
-                  </h6>
+                  </div>
 
                   <img className="section-img" src={room.roomImg} />
                 </Section>

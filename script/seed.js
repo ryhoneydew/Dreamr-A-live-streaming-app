@@ -15,8 +15,8 @@ async function seed() {
     }),
     User.create({
       userName: 'dbettridge1',
-      email: 'rdavley1@state.tx.us',
-      password: 'YCd07pkK5',
+      email: 'hello@email.com',
+      password: '123',
       icon: 'http://dummyimage.com/100x100.png/dddddd/000000'
     }),
     User.create({
@@ -86,18 +86,17 @@ async function seed() {
   const id = () => Math.round(Math.random() * (users.length - 1)) + 1
 
   const messagesData = [
-    {userId: id(), content: 'I like Redux!', roomId: 1},
-    {userId: id(), content: 'I like React!', roomId: 1},
-    {userId: id(), content: 'I like React-Redux!', roomId: 1},
-    {userId: id(), content: 'I like writing web apps!', roomId: 2},
+    {userId: id(), content: 'I like your vidoes!', roomId: 1},
+    {userId: id(), content: 'I like your smile!', roomId: 1},
+    {userId: id(), content: 'More videos please!', roomId: 1},
+    {userId: id(), content: 'I like streaming!', roomId: 2},
     {userId: id(), content: 'You should learn JavaScript!', roomId: 2},
     {userId: id(), content: 'JavaScript is pretty great!', roomId: 2},
     {userId: id(), content: 'Dogs are great!', roomId: 1},
     {userId: id(), content: 'Cats are also great!', roomId: 2},
-    {userId: id(), content: 'Why must we fight so?', roomId: 2},
-    {userId: id(), content: 'I want to get tacos!', roomId: 1},
-    {userId: id(), content: 'I want to get salad!', roomId: 1},
-    {userId: id(), content: 'I want a taco salad!', roomId: 2}
+    {userId: id(), content: 'Great video!', roomId: 2},
+    {userId: id(), content: 'I want to get nice camera!', roomId: 1},
+    {userId: id(), content: 'I want to get nice microphone!', roomId: 1}
   ]
   await Room.bulkCreate(roomData)
   await Message.bulkCreate(messagesData)
