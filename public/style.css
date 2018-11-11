@@ -33,3 +33,20 @@ form div {
 #new-message-form.btn {
   border-width: 3px;
 }
+
+.item {
+  display: inline-block;
+  padding: 2rem;
+  color: white;
+  font-size: 1.5rem;
+  position: relative;
+}
+hr {
+  width: 40vw;
+  height: 3vh;
+  background-color: #fcd670;
+}
+.section-img {
+  width: 22vh;
+  height: 20vh;
+}

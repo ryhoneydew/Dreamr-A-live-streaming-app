@@ -1,108 +1,77 @@
+import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import React, {Component} from 'react'
-import {Menu} from 'semantic-ui-react'
+import styled from 'styled-components'
 
-export default class MenuExampleBasic extends Component {
-  state = {}
+const Title = styled.h1`
+  font-size: 4rem;
+  font-family: 'Exo', sans-serif;
+  text-align: center;
+  color: white;
+  margin-top: 1.5rem;
+  width: 100%;
+  float: left;
+  padding: 1rem 0;
+`
 
-  handleItemClick = (e, {name}) => this.setState({activeItem: name})
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #f4d03f;
+  justify-content: center;
+`
+const NavWrapper = styled.div`
+  float: right;
+  padding: 1rem;
+  width: 80%;
+  align-items: flex-end;
+`
 
-  render() {
-    const {activeItem} = this.state
+const Navbar = ({handleClick, isLoggedIn}) => (
+  <Wrapper>
+    <Title>Dreamr</Title>
+    <NavWrapper>
+      <Link className="item" to="/home">
+        Home
+      </Link>
+      <Link className="item" to="/account">
+        Account
+      </Link>
 
-    return (
-      <Menu>
-        <Link to="/">
-          <Menu.Item
-            name="Home"
-            active={activeItem === 'Home'}
-            onClick={this.handleItemClick}
-          >
-            Home
-          </Menu.Item>
-        </Link>
-        <Link to="/login">
-          <Menu.Item
-            name="login"
-            active={activeItem === 'login'}
-            onClick={this.handleItemClick}
-          >
-            Reviews
-          </Menu.Item>
-        </Link>
-        <Link to="/signup">
-          <Menu.Item
-            name="signup"
-            active={activeItem === 'signup'}
-            onClick={this.handleItemClick}
-          >
-            Signup
-          </Menu.Item>
-        </Link>
-      </Menu>
-    )
+      {isLoggedIn ? (
+        <a className="item" href="#" onClick={handleClick}>
+          Logout
+        </a>
+      ) : (
+        <React.Fragment>
+          <Link className="item" to="/login">
+            Login
+          </Link>
+          <Link className="item" to="/signup">
+            Sign Up
+          </Link>
+        </React.Fragment>
+      )}
+    </NavWrapper>
+  </Wrapper>
+)
+
+/**
+ * CONTAINER
+ */
+const mapState = state => {
+  return {
+    isLoggedIn: !!state.user.id
   }
 }
-// const Navbar = ({handleClick, isLoggedIn}) => (
-//   <div>
-//     <div className="ui text menu">
-//       <h1 className="ui center aligned huge header">Dreamr</h1>
-//     </div>
-//     <div>
-//       {isLoggedIn ? (
-//         <div>
-//           {/* The navbar will show these links after you log in */}
-//           <Link className="active item" to="/home">
-//             Home
-//           </Link>
-//           <Link className="item" to="/account">
-//             Account
-//           </Link>
-//           <a className="item" href="#" onClick={handleClick}>
-//             Logout
-//           </a>
-//         </div>
-//       ) : (
-//         <div>
-//           {/* The navbar will show these links before you log in */}
-//           <Link className="item" to="/login">
-//             Login
-//           </Link>
-//           <Link className="item" to="/signup">
-//             Sign Up
-//           </Link>
-//         </div>
-//       )}
-//     </div>
-//     <hr />
-//   </div>
-// )
 
-// /**
-//  * CONTAINER
-//  */
-// const mapState = state => {
-//   return {
-//     isLoggedIn: !!state.user.id
-//   }
-// }
+const mapDispatch = dispatch => {
+  return {
+    handleClick() {
+      dispatch(logout())
+    }
+  }
+}
 
-// const mapDispatch = dispatch => {
-//   return {
-//     handleClick() {
-//       dispatch(logout())
-//     }
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Navbar)
-
-// /**
-//  * PROP TYPES
-//  */
-// Navbar.propTypes = {
-//   handleClick: PropTypes.func.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired
-// }
+export default connect(mapState, mapDispatch)(Navbar)

@@ -2,7 +2,34 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {createARoom} from '../store/singleRoom'
 import {Link} from 'react-router-dom'
-//import StreamingRoom from './streaming-room'
+import styled, {ThemeProvider} from 'styled-components'
+
+const Button = styled.button`
+  color: ${props => props.theme.fg};
+  border: 2px solid ${props => props.theme.fg};
+  background: ${props => props.theme.bg};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border-radius: 3px;
+`
+
+// Define our `fg` and `bg` on the theme
+const theme = {
+  fg: 'black',
+  bg: 'white'
+}
+
+// This theme swaps `fg` and `bg`
+const invertTheme = ({fg, bg}) => ({
+  fg: bg,
+  bg: fg
+})
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 class UserProfile extends Component {
   constructor(props) {
@@ -15,23 +42,27 @@ class UserProfile extends Component {
 
   async handleClick() {
     await this.props.createRoom()
-    console.log('!!! async', this.props)
     this.setState({startStreaming: true})
   }
   render() {
     console.log(this.props)
     return (
-      <div>
-        <h1>hiiiiii</h1>
-        <button type="submit" onClick={() => this.handleClick()}>
-          Start Streaming
-        </button>
-        {this.props.singleRoom.room.id && this.state.startStreaming ? (
-          <Link to={`/room/${this.props.singleRoom.room.id}`}>
-            <button type="submit">Your room is ready!</button>
-          </Link>
-        ) : null}
-      </div>
+      <ThemeProvider theme={theme}>
+        <ButtonGroup>
+          <Button type="submit" onClick={() => this.handleClick()}>
+            Start Streaming
+          </Button>
+          {this.props.singleRoom.room.id && this.state.startStreaming ? (
+            <Link to={`/room/${this.props.singleRoom.room.id}`}>
+              <ThemeProvider theme={invertTheme}>
+                <Button type="submit" theme={invertTheme}>
+                  Your room is ready!
+                </Button>
+              </ThemeProvider>
+            </Link>
+          ) : null}
+        </ButtonGroup>
+      </ThemeProvider>
     )
   }
 }

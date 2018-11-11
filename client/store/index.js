@@ -6,8 +6,15 @@ import user from './user'
 import singleRoom from './singleRoom'
 import singleMessage from './singleMessage'
 import messages from './messages'
+import rooms from './rooms'
 
-const reducer = combineReducers({user, singleRoom, singleMessage, messages})
+const reducer = combineReducers({
+  user,
+  singleRoom,
+  singleMessage,
+  messages,
+  rooms
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

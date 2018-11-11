@@ -6,7 +6,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const rooms = await Room.findAll()
+    const rooms = await Room.findAll({include: [{all: true}]})
     res.json(rooms)
   } catch (err) {
     next(err)
