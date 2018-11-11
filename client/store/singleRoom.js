@@ -21,8 +21,8 @@ export const fetchRoomInfo = roomId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/rooms/${roomId}`)
     const room = data.roomWithPublisher
-    console.log('store room!', room)
     const subscriber = data.subscriber
+    console.log('heyyyyy!', subscriber)
     dispatch(getRoomInfo({room, subscriber}))
   } catch (err) {
     console.log(err)

@@ -1,7 +1,7 @@
 import React from 'react'
 import {OTSession, OTPublisher, OTStreams, OTSubscriber} from 'opentok-react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {fetchRoomInfo} from '../store/singleRoom'
 import styled from 'styled-components'
 
@@ -114,9 +114,14 @@ class StreamingRoom extends React.Component {
       !!room.id && (
         <StreamingWrapper>
           <h3>Steaming Status: {connection}</h3>
-          <Button id="videoButton" type="submit" onClick={this.toggleVideo}>
-            {publishVideo ? 'Disable' : 'Enable'} Video
-          </Button>
+          {this.props.user.id === room.publisherId && (
+            <Button id="videoButton" type="submit" onClick={this.toggleVideo}>
+              {publishVideo ? 'Disable' : 'Enable'} Video
+            </Button>
+          )}
+          <Link to="/home">
+          <Button type="submit">Leave the Room</Button>
+        </Link>
           {error ? (
             <div className="error">
               <strong>Error:</strong> {error}

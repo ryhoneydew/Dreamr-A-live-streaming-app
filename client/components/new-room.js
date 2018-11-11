@@ -23,6 +23,7 @@ const RightSplitWrapper = styled.div`
   padding: 1.5rem, 1rem;
   right: 0;
 `
+
 class NewRoom extends Component {
   state = {}
   render() {

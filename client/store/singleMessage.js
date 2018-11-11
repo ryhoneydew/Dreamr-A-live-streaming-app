@@ -22,6 +22,7 @@ export const postAMessage = (content, roomId) => async dispatch => {
     const message = data
     dispatch(writeAMessage(message))
     socket.emit('new_message', message)
+    dispatch(writeAMessage(''))
   } catch (err) {
     console.log(err)
   }

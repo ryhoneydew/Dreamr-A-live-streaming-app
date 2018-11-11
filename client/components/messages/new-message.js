@@ -46,14 +46,16 @@ class NewMessage extends Component {
       content: this.state.messageEntry,
       roomId: this.props.roomId
     })
+    this.setState({messageEntry: ''})
   }
+
   render() {
     return (
       <FormArea onSubmit={this.handleSubmit}>
         <Input
           type="text"
-          name="content"
-          value={this.props.messageEntry}
+          name="messageEntry"
+          value={this.state.messageEntry}
           placeholder="Say something nice..."
           onChange={this.handleChange}
         />
