@@ -44,14 +44,14 @@ class UserProfile extends Component {
     this.setState({startStreaming: true})
   }
   render() {
-    console.log(this.props)
+    console.log(this.props.singleRoom.room)
     return (
       <ThemeProvider theme={theme}>
         <ButtonGroup>
           <Button type="submit" onClick={() => this.handleClick()}>
             Start Streaming
           </Button>
-          {this.props.singleRoom.room.id && this.state.startStreaming ? (
+          {this.props.singleRoom.room && this.state.startStreaming ? (
             <Link to={`/room/${this.props.singleRoom.room.id}`}>
               <ThemeProvider theme={invertTheme}>
                 <Button type="submit" theme={invertTheme}>

@@ -2,7 +2,7 @@ import React from 'react'
 import {OTSession, OTPublisher, OTStreams, OTSubscriber} from 'opentok-react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import {fetchRoomInfo} from '../store/singleRoom'
+import {fetchRoomInfo, udpateRoomStreamingStatus} from '../store/singleRoom'
 import styled from 'styled-components'
 
 const Button = styled.button`
@@ -27,7 +27,8 @@ class StreamingRoom extends React.Component {
     this.state = {
       error: null,
       connection: 'Connecting',
-      publishVideo: true
+      publishVideo: true,
+      subscriberVideo: false
     }
 
     this.sessionEventHandlers = {
@@ -63,12 +64,6 @@ class StreamingRoom extends React.Component {
       }
     }
 
-    this.subscriberOptions = {
-      insertMode: 'append',
-      width: '100px',
-      height: '100px'
-    }
-
     this.subscriberEventHandlers = {
       videoEnabled: () => {
         console.log('Subscriber video enabled')
@@ -102,26 +97,64 @@ class StreamingRoom extends React.Component {
     this.setState({error})
   }
 
-  toggleVideo = () => {
+  togglePublisherVideo = () => {
     this.setState({publishVideo: !this.state.publishVideo})
+  }
+
+  leftRoom = () => {
+    this.setState({publishVideo: false})
+
+    this.props.disableRoom(this.props.singleRoom.room.id)
+  }
+  toggleSubscriberVideo = () => {
+    this.setState({subscriberVideo: !this.state.subscriberVideo})
   }
 
   render() {
     const room = this.props.singleRoom.room
+    const {error, connection, publishVideo, subscriberVideo} = this.state
 
-    const {error, connection, publishVideo} = this.state
+    const subscriberOptions = {
+      insertMode: 'append',
+      width: '100px',
+      height: '100px',
+      subscribeToVideo: this.state.subscriberVideo || false
+    }
     return (
       !!room.id && (
         <StreamingWrapper>
           <h3>Steaming Status: {connection}</h3>
-          {this.props.user.id === room.publisherId && (
-            <Button id="videoButton" type="submit" onClick={this.toggleVideo}>
-              {publishVideo ? 'Disable' : 'Enable'} Video
-            </Button>
+
+          {this.props.user.id === room.publisherId ? (
+            <React.Fragment>
+              <Button
+                id="videoButton"
+                type="submit"
+                onClick={this.togglePublisherVideo}
+              >
+                {publishVideo ? 'Disable' : 'Enable'} Video
+              </Button>
+              <Link to="/home">
+                <Button type="submit" onClick={this.leftRoom}>
+                  Leave the Room
+                </Button>
+              </Link>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Button
+                id="videoButton"
+                type="submit"
+                onClick={this.toggleSubscriberVideo}
+              >
+                {subscriberVideo ? `Don't Show My` : 'Show My Own'} Video
+              </Button>
+              <Link to="/home">
+                <Button type="submit">Leave the Room</Button>
+              </Link>
+            </React.Fragment>
           )}
-          <Link to="/home">
-          <Button type="submit">Leave the Room</Button>
-        </Link>
+
           {error ? (
             <div className="error">
               <strong>Error:</strong> {error}
@@ -143,7 +176,7 @@ class StreamingRoom extends React.Component {
             />
             <OTStreams>
               <OTSubscriber
-                properties={this.subscriberOptions}
+                properties={subscriberOptions}
                 onSubscribe={this.onSubscribe}
                 onError={this.onSubscribeError}
                 eventHandlers={this.subscriberEventHandlers}
@@ -161,6 +194,7 @@ const mapState = ({user, singleRoom}) => ({
   singleRoom
 })
 const mapProps = dispatch => ({
-  fetchTheRoom: roomId => dispatch(fetchRoomInfo(roomId))
+  fetchTheRoom: roomId => dispatch(fetchRoomInfo(roomId)),
+  disableRoom: roomId => dispatch(udpateRoomStreamingStatus(roomId))
 })
 export default withRouter(connect(mapState, mapProps)(StreamingRoom))

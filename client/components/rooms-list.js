@@ -28,18 +28,17 @@ class RoomsList extends Component {
     await this.props.fetchRooms()
   }
   render() {
+    const filteredRooms = this.props.rooms.filter(room => room.isStreaming)
     return (
       <React.Fragment>
         <Welcome> What is happening</Welcome>
         <hr />
         <Wrapper>
           {this.props.rooms.length &&
-            this.props.rooms.map(room => (
+            filteredRooms.map(room => (
               <Link key={room.id} to={`/room/${room.id}`}>
                 <Section>
-                  <div>
-                    Room: {room.id} By:{room.publisher.email}
-                  </div>
+                  <div>Room Host By:{room.publisher.email}</div>
 
                   <img className="section-img" src={room.roomImg} />
                 </Section>

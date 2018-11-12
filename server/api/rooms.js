@@ -7,7 +7,14 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const rooms = await Room.findAll({include: [{all: true}]})
+    // if (req.query.isStreaming) {
+    //   const filteredRooms = rooms.filter(
+    //     room => room.isStreaming === req.query.isStreaming
+    //   )
+    //   res.json(filteredRooms)
+    // } else {
     res.json(rooms)
+    // }
   } catch (err) {
     next(err)
   }
@@ -27,7 +34,7 @@ router.get('/:roomId', async (req, res, next) => {
       let token = opentok.generateToken(sessionId, tokenOptions)
       await publisher.update({subscriberId: req.user.id})
       await subscriber.update({token})
-    } 
+    }
     const roomWithPublisher = await Room.findOne({
       where: {
         id: req.params.roomId
@@ -36,6 +43,21 @@ router.get('/:roomId', async (req, res, next) => {
     })
 
     res.json({roomWithPublisher, subscriber})
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.put('/:roomId', async (req, res, next) => {
+  try {
+    const room = await Room.findById(req.params.roomId)
+    if (room) {
+      await room.update(req.body)
+      console.log('udpate room in backend', room)
+      res.json(room)
+    } else {
+      res.status(404).send('Room is not found')
+    }
   } catch (err) {
     next(err)
   }
@@ -54,6 +76,7 @@ router.post('/new', (req, res, next) => {
     req.body.roomName = 'abc'
     req.body.sessionId = sessionId
     req.body.publisherId = req.user.id
+    req.body.isStreaming = true
     try {
       const newRoom = await Room.create(req.body)
       const tokenOptions = {}
