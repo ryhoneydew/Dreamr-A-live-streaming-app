@@ -34,7 +34,7 @@ class RoomsList extends Component {
         <Welcome> What is happening</Welcome>
         <hr />
         <Wrapper>
-          {this.props.rooms.length &&
+          {filteredRooms.length &&
             filteredRooms.map(room => (
               <Link key={room.id} to={`/room/${room.id}`}>
                 <Section>
