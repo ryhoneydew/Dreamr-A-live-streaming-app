@@ -74,13 +74,15 @@ async function seed() {
       roomName: `Rio453`,
       roomImg:
         'http://animalsadda.com/wp-content/uploads/2015/03/Grumpy-Cat-5.jpg',
-      publisherId: '3'
+      publisherId: '3',
+      isStreaming: true
     },
     {
       roomName: `Jojo123`,
       roomImg:
         'http://media.boingboing.net/wp-content/uploads/2017/03/surprised-cat-04.jpg',
-      publisherId: '4'
+      publisherId: '4',
+      isStreaming: true
     }
   ]
   const id = () => Math.round(Math.random() * (users.length - 1)) + 1

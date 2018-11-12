@@ -3,6 +3,7 @@ import {updateRooms} from './rooms'
 
 const GET_ROOM_INFO = 'GET_ROOM_INFO'
 const CREAT_NEW_ROOM = 'CREAT_NEW_ROOM'
+const UPDATE_ROOM_INFO = 'UPDATE_ROOM_INFO'
 
 const initialState = {room: {}, publisher: {}, subscriber: []}
 
@@ -15,6 +16,11 @@ export const createNewRoom = payload => ({
   type: CREAT_NEW_ROOM,
   room: payload.room,
   publisher: payload.publisher
+})
+
+const updateRoom = room => ({
+  type: UPDATE_ROOM_INFO,
+  room
 })
 
 export const fetchRoomInfo = roomId => async dispatch => {
@@ -31,11 +37,22 @@ export const fetchRoomInfo = roomId => async dispatch => {
 
 export const createARoom = () => async dispatch => {
   try {
-    const {data} = await axios.post(`api/rooms/new`)
+    const {data} = await axios.post(`/api/rooms/new`)
     const room = data.roomWithPublisher
     const publisher = data.publisher
     dispatch(updateRooms(room))
     dispatch(createNewRoom({room, publisher}))
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+export const udpateRoomStreamingStatus = roomId => async dispatch => {
+  try {
+    const {data} = await axios.put(`/api/rooms/${roomId}`, {isStreaming: false})
+    console.log('update room in store', data.room)
+    const room = data.room
+    dispatch(updateRoom(room))
   } catch (err) {
     console.log(err)
   }
@@ -50,6 +67,9 @@ const reducer = (state = initialState, action) => {
       }
     case CREAT_NEW_ROOM:
       return {...state, room: action.room, publisher: action.publisher}
+
+    case UPDATE_ROOM_INFO:
+      return {...state, room: action.room}
     default:
       return state
   }
