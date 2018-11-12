@@ -93,9 +93,9 @@ const AuthForm = props => {
         </LeftSide>
         <Or>OR</Or>
         <RightSide>
-          <Link to="/auth/google">
-            <Button>{displayName} with Google</Button>
-          </Link>
+          <Button>
+            <a href="/auth/google">{displayName} with Google</a>
+          </Button>
         </RightSide>
       </FormContainer>
     </React.Fragment>

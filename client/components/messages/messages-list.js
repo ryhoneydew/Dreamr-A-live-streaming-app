@@ -26,7 +26,7 @@ class MessagesList extends Component {
     return (
       <div className="chat-box">
         <Header>
-          <h3>See What did people say:</h3>
+          <h3>Chat Box</h3>
         </Header>
         {messages.length ? (
           <React.Fragment>

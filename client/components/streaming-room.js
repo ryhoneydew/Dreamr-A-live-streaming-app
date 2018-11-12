@@ -134,6 +134,13 @@ class StreamingRoom extends React.Component {
               >
                 {publishVideo ? 'Disable' : 'Enable'} Video
               </Button>
+              <Button
+                id="videoButton"
+                type="submit"
+                onClick={this.toggleSubscriberVideo}
+              >
+                {subscriberVideo ? `Don't Show` : 'Show'} Subscriber's Video
+              </Button>
               <Link to="/home">
                 <Button type="submit" onClick={this.leftRoom}>
                   Leave the Room
