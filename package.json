@@ -21,7 +21,8 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+    "test": "NODE_ENV='test' jest --watch --runInBand",
+    "test:coverage": "jest --coverage --colors"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -66,15 +67,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
-    "@babel/plugin-proposal-class-properties": "7.0.0-beta.54",
-    "@babel/plugin-proposal-decorators": "7.0.0-beta.54",
-    "@babel/plugin-proposal-export-namespace-from": "7.0.0-beta.54",
-    "@babel/plugin-proposal-function-sent": "7.0.0-beta.54",
-    "@babel/plugin-proposal-json-strings": "7.0.0-beta.54",
-    "@babel/plugin-proposal-numeric-separator": "7.0.0-beta.54",
-    "@babel/plugin-proposal-throw-expressions": "7.0.0-beta.54",
-    "@babel/plugin-syntax-dynamic-import": "7.0.0-beta.54",
-    "@babel/plugin-syntax-import-meta": "7.0.0-beta.54",
+    "@babel/plugin-proposal-class-properties": "7.0.0-beta.55",
+    "@babel/plugin-proposal-decorators": "7.0.0-beta.55",
+    "@babel/plugin-proposal-export-namespace-from": "7.0.0-beta.55",
+    "@babel/plugin-proposal-function-sent": "7.0.0-beta.55",
+    "@babel/plugin-proposal-json-strings": "7.0.0-beta.55",
+    "@babel/plugin-proposal-numeric-separator": "7.0.0-beta.55",
+    "@babel/plugin-proposal-throw-expressions": "7.0.0-beta.55",
+    "@babel/plugin-syntax-dynamic-import": "7.0.0-beta.55",
+    "@babel/plugin-syntax-import-meta": "7.0.0-beta.55",
     "@babel/polyfill": "^7.0.0-beta.55",
     "@babel/preset-env": "^7.0.0-beta.55",
     "@babel/preset-react": "^7.0.0-beta.55",
@@ -90,6 +91,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-react": "^7.10.0",
     "husky": "^0.14.3",
+    "jest": "^24.1.0",
     "lint-staged": "^7.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
