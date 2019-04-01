@@ -1,4 +1,4 @@
-#Dreamer - An Application for Live Streaming
+# Dreamer - An Application for Live Streaming
 
 This is a hackathon project that finished in four days. The application allows users to publish real-time, high quality and interactive contents. The technologies used are openTok API, Socket.io, React, Redux, Postgres with Sequelize, passport, Express, and Node.js, Jest
 
